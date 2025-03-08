@@ -1,0 +1,11 @@
+# ignore dependent ckpts 
+dependency/*.pth
+
+# ignore slurm runs
+run/
+runs/
+wandb/
+
+__pycache__/
+__pycache__
+*.pyc

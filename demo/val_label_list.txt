@@ -1,0 +1,1 @@
+../demo/Bladder_cancer/label.nii.gz

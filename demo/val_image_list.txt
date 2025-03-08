@@ -1,0 +1,1 @@
+../demo/Bladder_cancer/img_health.nii.gz

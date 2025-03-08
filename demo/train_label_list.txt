@@ -1,0 +1,1 @@
+../demo/Liver_cancer/label.nii.gz

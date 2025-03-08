@@ -1,0 +1,1 @@
+../demo/Liver_cancer/img_health.nii.gz

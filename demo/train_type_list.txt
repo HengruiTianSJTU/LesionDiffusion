@@ -1,0 +1,1 @@
+../demo/Liver_cancer/type.json

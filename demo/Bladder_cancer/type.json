@@ -1,0 +1,34 @@
+{
+    "104": [
+        "round-like,protrusion into the lumen,",
+        "",
+        {
+            "enhancement status": "enhanced CT,",
+            "lesion location": "104",
+            "shape": "round-like,protrusion into the lumen,",
+            "size": "[[23 18 24]] pixel",
+            "density": "isodense lesion,",
+            "density variations": "homogeneous,",
+            "CT value": "Mean density of the lesion region is approximately 35.0 HU,",
+            "surface characteristics": "serosal surface irregularity,",
+            "relationship with adjacent organs": "no close relationship with surrounding organs,",
+            "specific features": ""
+        },
+        [
+            [
+                [
+                    76,
+                    191,
+                    146
+                ]
+            ],
+            [
+                [
+                    23,
+                    18,
+                    24
+                ]
+            ]
+        ]
+    ]
+}

@@ -1,0 +1,118 @@
+model:
+  base_learning_rate: 2.e-6
+  target: ldm.models.diffusion.ddpm.InpaintingDiffusion
+  params:
+    linear_start: 0.0015
+    linear_end: 0.0195
+    num_timesteps_cond: 1
+    log_every_t: 200
+    timesteps: 1000
+    loss_type: l1
+    first_stage_key: image
+    cond_stage_key: text
+    conditioning_key: crossattn
+    image_size: [64, 64, 64]  # after first-stage encoding
+    channels: 4  # after first-stage encoding
+    monitor: val/loss_simple_ema
+    cond_stage_trainable: false
+    # ckpt_path: /diffuseditnew/checkpoints/last.ckpt
+
+    unet_config:
+      target: ldm.modules.diffusionmodules.openaimodel.UNetModel
+      params:
+        image_size: 64  # not used
+        in_channels: 5
+        out_channels: 5
+        model_channels: 128 # mask prediction: 32
+        attention_resolutions: [4]
+        num_res_blocks: 2
+        channel_mult: [1, 2, 4]
+        num_head_channels: 32
+        use_checkpoint: true  # always use ckpt
+        use_spatial_transformer: true
+        context_dim: 512
+
+    first_stage_config:
+      target: ldm.models.autoencoder.VQModelInterface
+      params:
+        monitor: "val/rec_loss"
+        image_key: image
+        embed_dim: 4
+        n_embed: 2048 #8192
+        dims: 3
+        is_conditional: false
+        ckpt_path: VQ.ckpt
+        lossconfig:
+          target: torch.nn.Identity
+
+        ddconfig:
+          double_z: False
+          z_channels: 4
+          resolution: [128, 128, 128]
+          in_channels: 1
+          out_ch: 1
+          ch: 96
+          ch_mult: [ 1, 1, 1 ]  # num_down = len(ch_mult)-1
+          sample_depth: [ 0 ] # specific layer depth for up and down sampling
+          num_res_blocks: 1
+          attn_resolutions: []
+          dropout: 0.0
+          dims: 3
+          attn_type: none
+          use_checkpoint: True  # always use ckpt
+
+    cond_stage_config: 
+      target: ldm.modules.encoders.biomedclip.BiomedCLIP
+      params:
+        context_length: 256
+        context_dim: 512
+        open_clip_config: 'configs/clip/open_clip_config.json'
+        pretrained: '../BiomedCLIP/open_clip_pytorch_model.bin'
+
+data:
+  target: main.DataModuleFromConfig #warning: load_memory hasn't been implemented
+  params:
+    batch_size: 1
+    num_workers: 12
+    train:
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
+      params:
+        image_list: "../demo/train_image_list.txt"
+        label_list: "../demo/train_label_list.txt"
+        type_list: "../demo/train_type_list.txt"
+        coarseg_list: "../demo/train_seg_list.txt"
+        random_sample: True
+        iter_num: 2000
+        crop_shape: [128, 128, 128]
+    validation:
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
+      params:
+        image_list: "../demo/val_image_list.txt"
+        label_list: "../demo/val_label_list.txt"
+        type_list: "../demo/val_type_list.txt"
+        coarseg_list: "../demo/val_seg_list.txt"
+        random_sample: True
+        iter_num: 25
+        crop_shape: [128, 128, 128]
+
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        train_batch_frequency: 200
+        max_images: 10
+        log_images_kwargs:
+          quantize_denoised: false 
+        logger:
+          inputs: 
+            target: image_rescale
+          reconstruction:
+            target: image_rescale
+          samples:
+            target: image_rescale
+
+  trainer:
+    benchmark: True
+    max_epochs: 1000

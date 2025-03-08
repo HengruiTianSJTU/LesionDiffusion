@@ -1,0 +1,72 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug autoencoder",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./main.py",
+            "args": ["-b", "./configs/autoencoder/ensemble_vq.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        // {
+        //     "name": "debug autoencoder-testtime",
+        //     "type": "debugpy",
+        //     "request": "launch",
+        //     "program": "./test.py",
+        //     "args": ["-b", "./configs/autoencoder/ruijin_3d_ae_kl_test.yaml", "--gpus", "0,", "--name", "test", "--debug"],
+        //     "console": "integratedTerminal"
+        // },
+        {
+            "name": "debug latentdiffusion",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./main.py",
+            "args": ["-b", "./configs/latent-diffusion/ensemble_ldm.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "debug latentdiffusion-testtime",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./test.py",
+            "args": ["-b", "./configs/latent-diffusion/brats2021_3d_ldm_test.yaml", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "debug categoricaldiffusion",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./main.py",
+            "args": ["-b", "./configs/categorical-diffusion/ensemble_cdm.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "debug categoricaldiffusion-testtime",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./test.py",
+            "args": ["-b", "./configs/categorical-diffusion/ensemble_cdm_test.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "debug classifier",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./main.py",
+            "args": ["-b", "./configs/classifier/ensemble_classifier.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "debug downstream",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./main.py",
+            "args": ["-b", "./configs/downstream/brats_subclass.yaml", "-t", "--gpus", "0,", "--name", "test", "--debug", "--scale_lr", "0"],
+            "console": "integratedTerminal"
+        },
+    ]
+}
