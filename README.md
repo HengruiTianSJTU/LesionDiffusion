@@ -11,11 +11,11 @@ To do list:
 1) a lesion mask synthesis network (LMNet) that is guided by lesion bounding boxes (bbox) and mask attributes,
 2) a lesion inpainting network (LINet) that is guided by both image attributes and the lesion mask. 
 
-<img src="https://github.com/HengruiTianSJTU/blob/main/LesionDiffusion/fig/Fig2.pdf" alt="overview" width="900" />
+<img src="https://github.com/HengruiTianSJTU/LesionDiffusion/blob/main/fig/Fig2.png" alt="overview" width="900" />
 
 Through extensive experiments, we demonstrate that LesionDiffusion significantly improves segmentation performance across a wide range of lesion types. More importantly, our approach shows exceptional generalization, even for unseen organs and lesion types, achieving a notable improvement in lesion segmentation and surpassing the performance of existing state-of-the-art lesion synthesis models.
 
-<img src="https://github.com/HengruiTianSJTU/blob/main/LesionDiffusion/fig/generation.pdf" alt="generation quality" width="900" />
+<img src="https://github.com/HengruiTianSJTU/LesionDiffusion/blob/main/fig/generation.png" alt="generation quality" width="900" />
 
 In the following sections, we will introduce how to use our LesionDiffusion framework.
 
@@ -87,7 +87,7 @@ To organize your dataset for training and validation, you need to create **eight
   2. **Structured Report Attributes**:  
      Pay special attention to the structured reports in `.json` files. These files must follow a strict dictionary format, as illustrated in the figure below. If you are unsure about the format, refer to the examples provided in the `demo` subdirectory for guidance.  
 
-     <img src="https://github.com/HengruiTianSJTU/blob/main/LesionDiffusion/fig/Fig1.pdf" alt="attributes" width="900" />
+     <img src="https://github.com/HengruiTianSJTU/LesionDiffusion/blob/main/fig/Fig1.png" alt="attributes" width="900" />
      
 
 # Step 1: Training Pipeline
