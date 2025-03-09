@@ -1,0 +1,78 @@
+model:
+  base_learning_rate: 1e-4
+  target: ldm.models.autoencoder.VQModel
+  params:
+    monitor: "val/rec_loss"
+    image_key: image
+    embed_dim: 4
+    n_embed: 2048 # =n_classes
+    dims: 3
+    is_conditional: false
+    lossconfig:
+      target: ldm.modules.losses.VQLPIPSWithDiscriminator
+      params:
+        disc_start: 50001
+        disc_weight: 0.5
+        n_classes: 2048  # =n_embed
+        gan_feat_weight: 0.
+        nframes_select: 1  # 1 as in medicaldiffusion
+
+    ddconfig:
+      double_z: False
+      z_channels: 4
+      resolution: [128, 128, 128]
+      in_channels: 1
+      out_ch: 1
+      ch: 96
+      ch_mult: [ 1, 1 ,1 ]  # num_down = len(ch_mult)-1 
+      sample_depth: [ 0 ] # specific layer depth for up and down sampling
+      num_res_blocks: 1
+      attn_resolutions: []
+      dropout: 0.0
+      dims: 3
+      attn_type: none
+      use_checkpoint: True  # always use ckpt
+
+data:
+  target: main.DataModuleFromConfig #warning: load_memory hasn't been implemented
+  params:
+    batch_size: 1
+    num_workers: 1
+    train:
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
+      params:
+        image_list: "../demo/train_image_list.txt"
+        label_list: "../demo/train_label_list.txt"
+        random_sample: True # when iter_num is more than data volume ,`random_sample` should be `true` to re-sample 
+        iter_num: 2000
+        crop_shape: [128, 128, 128]
+    validation:
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
+      params:
+        image_list: "../demo/val_image_list.txt"
+        label_list: "../demo/val_label_list.txt"
+        random_sample: True # when iter_num is more than data volume ,`random_sample` should be `true` to re-sample 
+        iter_num: 25
+        crop_shape: [128, 128, 128]
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      max_images: 10
+      log_separate: false
+      params:
+        train_batch_frequency: 400
+        max_images: 8
+        logger:
+          inputs: 
+            target: image_rescale
+          reconstruction:
+            target: image_rescale
+          samples:
+            target: image_rescale
+
+  trainer:
+    benchmark: True
+    accumulate_grad_batches: 1
+    max_epochs: 60
