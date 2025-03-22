@@ -137,7 +137,7 @@ Before running the preprocess script, ensure your OpenAI API key is set:
 export OPENAI_API_KEY="your_openai_api_key_here"
 ```
 
-By the way, other LLM APIs are also supported. To use a different provider, simply modify the `llm_url` and `llm_model` parameters at the very beggining of `prprocess.py`.
+By the way, other LLM APIs are also supported. To use a different provider, simply modify the `llm_url` and `llm_model` parameters at the very beggining of `preprocess.py`.
 
 Then, execute:
 ```bash
