@@ -168,8 +168,8 @@ class ImageLogger(Callback):
                                           split, images,
                                           pl_module.global_step, pl_module.current_epoch, batch_idx, metrics)
 
-            logger_log_images = self.logger_log_images.get(logger, lambda *args, **kwargs: None)
-            logger_log_images(pl_module, local_images, batch_idx, split)
+            # logger_log_images = self.logger_log_images.get(logger, lambda *args, **kwargs: None)
+            # logger_log_images(pl_module, local_images, batch_idx, split)
 
     def check_frequency(self, check_idx, split="test"):
         log_steps = self.log_steps

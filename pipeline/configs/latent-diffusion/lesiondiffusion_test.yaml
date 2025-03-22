@@ -1,6 +1,6 @@
 model:
   base_learning_rate: 2.e-5
-  target: inference.models.InferBrushDiffusion_v2
+  target: inference.models.InferInpaintingDiffusion_v2
   params:
     linear_start: 0.0015
     linear_end: 0.0195
@@ -15,7 +15,7 @@ model:
     channels: 4  # after first-stage encoding
     monitor: val/loss_simple_ema
     cond_stage_trainable: false
-    ckpt_path: /ailab/public/pjlab-smarthealth03/leiwenhui/thr/code/lesionedition/demotune2/checkpoints/last.ckpt
+    ckpt_path: LINet.ckpt
 
     unet_config:
       target: ldm.modules.diffusionmodules.openaimodel.UNetModel
@@ -43,7 +43,7 @@ model:
         n_embed: 2048 #8192
         dims: 3
         is_conditional: false
-        ckpt_path: /ailab/public/pjlab-smarthealth03/leiwenhui/thr/code/lesionedition/vq2048/checkpoints/last.ckpt
+        ckpt_path: VQ.ckpt
         lossconfig:
           target: torch.nn.Identity
 
@@ -81,13 +81,13 @@ model:
 
         context_length: 256
         context_dim: 512
-        open_clip_config: '/ailab/public/pjlab-smarthealth03/leiwenhui/thr/code/lesionedition/configs/clip/open_clip_config.json'
-        pretrained: '/ailab/public/pjlab-smarthealth03/leiwenhui/thr/code/BiomedCLIP/open_clip_pytorch_model.bin'
+        open_clip_config: 'configs/clip/open_clip_config.json'
+        pretrained: '../BiomedCLIP/open_clip_pytorch_model.bin'
 
     save_dataset: true 
-    save_dataset_path: /ailab/public/pjlab-smarthealth03/leiwenhui/thr/code/lesionedition/inpainting_nc1
-    save_name: 'inpainting'
-    include_keys: [samples]
+    save_dataset_path: ../demo
+    save_name: 'inpainting' # exact save name for lesion inpainting
+    include_keys: [samples] # shouldn't be changed
     suffix_keys: 
       samples: .nii.gz
 
@@ -100,14 +100,13 @@ data:
     batch_size: 1
     num_workers: 24
     test:
-      target: ldm.data.Torchio_contrast_dataloader.TorchioDataloader
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
       params:
-        image_list: "/ailab/public/pjlab-smarthealth03/leiwenhui/thr/data/img_list.txt"
-        label_list: "/ailab/public/pjlab-smarthealth03/leiwenhui/thr/data/label_list.txt"
-        type_list: "/ailab/public/pjlab-smarthealth03/leiwenhui/thr/data/type_list.txt"
-        coarseg_list: "/ailab/public/pjlab-smarthealth03/leiwenhui/thr/data/seg_list.txt"
+        image_list: "exp/img_list.txt"
+        label_list: "exp/label_list.txt"
+        type_list: "exp/type_list.txt"
+        coarseg_list: "exp/seg_list.txt"
         max_mask_num: 3 # max sampling times for mask
-        iter_num: 7001
         crop_shape: [128, 128, 128]
 
 lightning:

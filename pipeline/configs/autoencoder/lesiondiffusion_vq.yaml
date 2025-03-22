@@ -5,7 +5,7 @@ model:
     monitor: "val/rec_loss"
     image_key: image
     embed_dim: 4
-    n_embed: 2048 # =n_classes
+    n_embed: 2048 #8192
     dims: 3
     is_conditional: false
     lossconfig:

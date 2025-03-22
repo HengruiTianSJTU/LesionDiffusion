@@ -1,0 +1,1 @@
+../demo/liver_0/raw.nii.gz

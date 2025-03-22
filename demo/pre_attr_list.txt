@@ -1,0 +1,1 @@
+{"organ type": "liver", "lesion type": "cyst"}

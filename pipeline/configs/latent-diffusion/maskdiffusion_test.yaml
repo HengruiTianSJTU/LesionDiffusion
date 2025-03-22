@@ -1,0 +1,94 @@
+model:
+  base_learning_rate: 2.e-5
+  target: inference.models.InferMaskDiffusion
+  params:
+    linear_start: 0.0015
+    linear_end: 0.0195
+    num_timesteps_cond: 1
+    log_every_t: 200
+    timesteps: 1000
+    loss_type: l2
+    fg_loss_weight: 1000
+    cond_stage_key: text
+    conditioning_key: crossattn
+    image_size: [64, 152, 152]  # after first-stage encoding
+    channels: 1  # after first-stage encoding
+    monitor: val/loss_simple_ema
+    cond_stage_trainable: false
+    ckpt_path: LMNet.ckpt
+
+    unet_config:
+      target: ldm.modules.diffusionmodules.openaimodel.UNetModel
+      params:
+        image_size: 64  # not used
+        in_channels: 4
+        out_channels: 1
+        model_channels: 16
+        attention_resolutions: [4]
+        num_res_blocks: 1
+        channel_mult: [1, 2, 4]
+        num_head_channels: 32
+        use_checkpoint: true  # always use ckpt
+        use_fp16: false
+        use_spatial_transformer: true
+        context_dim: 512
+
+    cond_stage_config: 
+      target: ldm.modules.encoders.biomedclip.BiomedCLIP
+      params:
+        context_length: 256
+        context_dim: 512
+        open_clip_config: 'configs/clip/open_clip_config.json'
+        pretrained: '../BiomedCLIP/open_clip_pytorch_model.bin'
+
+    save_dataset: true 
+    save_dataset_path: ../demo
+    save_name: 'samples' # exact save name for lesion mask
+    include_keys: [samples] # shouldn't be changed
+    suffix_keys: 
+      samples: .nii.gz
+
+    # eval_scheme: [1, 3]
+
+data:
+  target: test.DataModuleFromConfig # warning: load_memory hasn't been implemented
+  params:
+    batch_size: 1
+    num_workers: 24
+    test:
+      target: ldm.data.Torchio_contrast_dataloader.LesionDataset
+      params:
+        image_list: "exp/img_list.txt"
+        label_list: "exp/bbox_list.txt"
+        type_list: "exp/type_list.txt"
+        seg_list: "exp/seg_list.txt" # just keep the same as 'coarseg_list'
+        coarseg_list: "exp/seg_list.txt"
+        max_mask_num: 3 # max sampling times for mask 
+
+        crop_shape: [64, 152, 152]
+
+lightning:
+  callbacks:
+    image_logger:
+      target: test.ImageLogger
+      params:
+        test_batch_frequency: 1
+        max_images: -1
+        log_separate: false
+        clamp: false
+        log_images_kwargs:
+          verbose: true
+          alpha: .2
+        logger:
+          inputs: 
+            target: image_rescale
+          # conditioning:
+          #   target: mask_rescale
+            # params: 
+            #   n_mask: 3
+          samples:
+            target: image_rescale
+          masks:
+            target: image_rescale
+          predicted_masks:
+            target: image_rescale

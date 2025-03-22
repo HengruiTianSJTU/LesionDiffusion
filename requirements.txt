@@ -144,3 +144,5 @@ Werkzeug==3.0.3
 wrapt==1.16.0
 yarl==1.9.4
 torch-fidelity==0.3.0
+TotalSegmentator==2.4.0
+openai==1.66.3

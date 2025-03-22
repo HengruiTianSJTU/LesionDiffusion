@@ -2,8 +2,7 @@
 This repository is for LesionDiffusion, a general, text-controllable lesion synthesis foundation model for 3D CT imaging.
 
 To do list:
-- Inpainting pipeline.
-- Release public available Dataset.
+- Release public available Dataset. (Coming soon!)
 
 # Overview
 **LesionDiffusion** is a text-controlled framework for generalizable lesion synthesis. The framework consists of two key components: 
@@ -123,6 +122,62 @@ To train the VQ-GAN model, use the configuration file located at `configs/autoen
 For training the LINet model, use the configuration file located at `configs/latent-diffusion/leiondiffusion.yaml`. The `random_sample` and `iter_num` parameters follow the same requirements as described in Stage I. Additionally, you can fine-tune a pretrained LINet model using the fine-tuning configuration file located at `configs/latent-diffusion/lesiondiffusion_ft.yaml`.
 
 # Step 2: Inference pipeline
+As described in our paper, the **LesionDiffusion** framework inference consists of three stages, which must be executed sequentially. Like what we do in the training pipeline, make sure yourself still in the `pipeline` subdirectory.
+
+### **Pre-Process**
+
+This stage sequentially performs following operations with a single script `preprocess.py`:
+1. **CT Image Standardization**: Preprocess the raw CT images to achieve uniform orientation and voxel spacing.
+2. **Organ Segmentation**: Use TotalSegmentator to segment the target organ.
+3. **LLM Report Generation**: Call the LLM API (with your OpenAI API key set) to generate a fictional, structured radiology report.
+4. **Bounding Box Generation**: Create a bounding box (bbox) for the specified editing region based on the report.
+
+Before running the preprocess script, ensure your OpenAI API key is set:
+```bash
+export OPENAI_API_KEY="your_openai_api_key_here"
+```
+
+By the way, other LLM APIs are also supported. To use a different provider, simply modify the `llm_url` and `llm_model` parameters at the very beggining of `prprocess.py`.
+
+Then, execute:
+```bash
+python preprocess.py filelist exp_name attributes
+```
+Here:
+- `filelist` is a path to a text file listing the raw CT images you wish to inpaint. Each line in the file is the path to a raw CT image located in a specific subdirectory. This subdirectory will also contain other results produced during this process.
+- `exp_name` is the exact name you want to assign to this experiment. The script will create a subdirectory with this name to hold the output files:  
+  - `bbox_list.txt` for bounding boxes  
+  - `type_list.txt` for the structured radiology reports  
+  - `seg_list.txt` for TotalSegmentator results  
+  - `img_list.txt` which mirrors the content of `filelist`
+- `attributes` is a path to a text file that lists attributes corresponding to each image sample. Each line is a JSON-formatted dictionary that includes at least `organ type` and `lesion type`. The `organ type` values are defined in `organ_type.json`, while additional optional attributes are referenced from `description.json`.
+
+These files will be used for subsequent model inference.
+
+For example, our demo usage might be:
+```bash
+python preprocess.py ../demo/pre_img_list.txt exp ../demo/pre_attr_lixt.txt
+```
+
+### **Inference with LMNet**
+To run inference using the LMNet model, use the configuration file at `configs/latent-diffusion/maskdiffusion_test.yaml`. Modify the `data` section in this configuration to reference the file lists generated in your `exp_name` subdirectory, and adjust the `max_mask_num` parameter to set the maximum number of inpainted regions (i.e., sampling iterations) allowed per image.
+
+Then execute:
+```bash
+python test.py --base configs/latent-diffusion/maskdiffusion_test.yaml --name mask-diff-infer --gpus XX,XX
+```
+
+### **Inference with LINet**
+After completing the previous stages, we finally perform inference using the LINet model. Use the configuration file at `configs/latent-diffusion/lesiondiffusion_test.yaml`. In this configuration, update the `data` section to reference the file lists generated in your `exp_name` subdirectory exactly as you did for `maskdiffusion_test.yaml`. Additionally, take the `bbox_list.txt` file and, for each line, replace the filename `bbox.nii.gz` with `samples_0.nii.gz`. Ensure that the `max_mask_num` parameter remains the same as set in `maskdiffusion_test.yaml`.
+
+Then execute:
+```bash
+python test.py --base configs/latent-diffusion/lesiondiffusion_test.yaml --name inp-diff-infer --gpus XX
+```
+
+We strongly recommend using two GPUs and specifying the index of the one with the smaller index to the `--gpus` option, as the other GPU will be automatically utilized for the VQ process on the full image to implement multiplace sampling on a single raw input image.
+
+Once all steps are complete, you will find your inpainting results in the respective subdirectories corresponding to each raw image. Congratulations!
 
 # Acknowledgement
 - We thank the authors of [ldm](https://github.com/OvO1111/ldm), [PASTA](https://github.com/LWHYC/PASTA), [StableDiffusion](https://github.com/CompVis/latent-diffusion), [BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224), [VQ-GAN](https://github.com/CompVis/taming-transformers), [TotalSegmentator](https://github.com/wasserth/TotalSegmentator), [nnUNet](https://github.com/MIC-DKFZ/nnUNet), for their great works. Please cite their papers if you use our code.
