@@ -1,5 +1,19 @@
-# LesionDiffusion
-This repository is for LesionDiffusion, a general, text-controllable lesion synthesis foundation model for 3D CT imaging.
+# [MICCAI'25 Early Accept] LesionDiffusion
+<div align="center">
+<br>
+<h3>LesionDiffusion: Towards Text-controlled General Lesion Synthesis</h3>
+
+[Hengrui Tian](https://github.com/HengruiTianSJTU/)<sup>1&#42;</sup>&nbsp;
+[Wenhui Lei](https://scholar.google.com/citations?user=kvD7060AAAAJ)<sup>1,2&#42;</sup>&nbsp;
+[Linrui Dai](https://github.com/OvO1111/)<sup>1&#42;</sup>&nbsp;
+Hanyu Chen<sup>3</sup>&nbsp;
+[Xiaofan Zhang](https://zhangxiaofan101.github.io/)<sup>1,2</sup>&nbsp;
+
+<sup>1</sup> Shanghai Jiao Tong University &nbsp; <sup>2</sup> Shanghai Artificial Intelligence Laboratory &nbsp; <sup>3</sup> The First Hospital of China Medical University &nbsp;
+ 
+[![ArXiv](https://img.shields.io/badge/ArXiv-<2503.00741>-<COLOR>.svg)](https://arxiv.org/pdf/2503.00741) 
+  
+</div>
 
 To do list:
 - Release public available Dataset. (Coming soon!)
