@@ -5,7 +5,7 @@
 
 [Hengrui Tian](https://github.com/HengruiTianSJTU/)<sup>1&#42;</sup>&nbsp;
 [Wenhui Lei](https://scholar.google.com/citations?user=kvD7060AAAAJ)<sup>1,2&#42;</sup>&nbsp;
-[Linrui Dai](https://github.com/OvO1111/)<sup>1&#42;</sup>&nbsp;
+[Linrui Dai](https://github.com/OvO1111/)<sup>1,2&#42;</sup>&nbsp;
 Hanyu Chen<sup>3</sup>&nbsp;
 [Xiaofan Zhang](https://zhangxiaofan101.github.io/)<sup>1,2</sup>&nbsp;
 
