@@ -405,7 +405,7 @@ def main():
         if len(attribute_list) != len(img_paths):
             raise ValueError("Number of attribute entries does not match number of image paths.")
     else:
-        raise ValueError(f"No such a path exsits: {e}")
+        raise ValueError(f"No such a path exsits: {args.attributes}")
 
     exp_dir = os.path.join(os.getcwd(), args.exp_name)
     os.makedirs(exp_dir, exist_ok=True)

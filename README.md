@@ -133,7 +133,7 @@ In Stage II, you will first train a VQ-GAN model to compress the CT volumes, fol
 To train the VQ-GAN model, use the configuration file located at `configs/autoencoder/leiondiffusion_vq.yaml`. If you need to adjust the configuration, ensure that the `n_embed` and `n_classes` parameters in the `model` section remain the same, as they define the size of the codebook used for compression.
 
 #### **Training LINet**
-For training the LINet model, use the configuration file located at `configs/latent-diffusion/leiondiffusion.yaml`. The `random_sample` and `iter_num` parameters follow the same requirements as described in Stage I. Additionally, you can fine-tune a pretrained LINet model using the fine-tuning configuration file located at `configs/latent-diffusion/lesiondiffusion_ft.yaml`.
+For training the LINet model, use the configuration file located at `configs/diffusion/leiondiffusion.yaml`. The `random_sample` and `iter_num` parameters follow the same requirements as described in Stage I. Additionally, you can fine-tune a pretrained LINet model using the fine-tuning configuration file located at `configs/diffusion/lesiondiffusion_ft.yaml`.
 
 # Step 2: Inference pipeline
 As described in our paper, the **LesionDiffusion** framework inference consists of three stages, which must be executed sequentially. Like what we do in the training pipeline, make sure yourself still in the `pipeline` subdirectory.
@@ -170,23 +170,23 @@ These files will be used for subsequent model inference.
 
 For example, our demo usage might be:
 ```bash
-python preprocess.py ../demo/pre_img_list.txt exp ../demo/pre_attr_lixt.txt
+python preprocess.py ../demo/pre_img_list.txt exp ../demo/pre_attr_list.txt
 ```
 
 ### **Inference with LMNet**
-To run inference using the LMNet model, use the configuration file at `configs/latent-diffusion/maskdiffusion_test.yaml`. Modify the `data` section in this configuration to reference the file lists generated in your `exp_name` subdirectory, and adjust the `max_mask_num` parameter to set the maximum number of inpainted regions (i.e., sampling iterations) allowed per image.
+To run inference using the LMNet model, use the configuration file at `configs/diffusion/maskdiffusion_test.yaml`. Modify the `data` section in this configuration to reference the file lists generated in your `exp_name` subdirectory, and adjust the `max_mask_num` parameter to set the maximum number of inpainted regions (i.e., sampling iterations) allowed per image.
 
 Then execute:
 ```bash
-python test.py --base configs/latent-diffusion/maskdiffusion_test.yaml --name mask-diff-infer --gpus XX,XX
+python test.py --base configs/diffusion/maskdiffusion_test.yaml --name mask-diff-infer --gpus XX,XX
 ```
 
 ### **Inference with LINet**
-After completing the previous stages, we finally perform inference using the LINet model. Use the configuration file at `configs/latent-diffusion/lesiondiffusion_test.yaml`. In this configuration, update the `data` section to reference the file lists generated in your `exp_name` subdirectory exactly as you did for `maskdiffusion_test.yaml`. Additionally, take the `bbox_list.txt` file and, for each line, replace the filename `bbox.nii.gz` with `samples_0.nii.gz`. Ensure that the `max_mask_num` parameter remains the same as set in `maskdiffusion_test.yaml`.
+After completing the previous stages, we finally perform inference using the LINet model. Use the configuration file at `configs/diffusion/lesiondiffusion_test.yaml`. In this configuration, update the `data` section to reference the file lists generated in your `exp_name` subdirectory exactly as you did for `maskdiffusion_test.yaml`. Additionally, take the `bbox_list.txt` file and, for each line, replace the filename `bbox.nii.gz` with `samples_0.nii.gz`. Ensure that the `max_mask_num` parameter remains the same as set in `maskdiffusion_test.yaml`.
 
 Then execute:
 ```bash
-python test.py --base configs/latent-diffusion/lesiondiffusion_test.yaml --name inp-diff-infer --gpus XX
+python test.py --base configs/diffusion/lesiondiffusion_test.yaml --name inp-diff-infer --gpus XX
 ```
 
 We strongly recommend using two GPUs and specifying the index of the one with the smaller index to the `--gpus` option, as the other GPU will be automatically utilized for the VQ process on the full image to implement multiplace sampling on a single raw input image.
