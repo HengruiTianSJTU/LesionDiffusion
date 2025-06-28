@@ -15,7 +15,7 @@ from medpy.metric import binary
 from einops import rearrange, repeat
 from ldm.data.utils import load_or_write_split
 from ldm.data.data_process_func import img_multi_thresh_normalized
-from ldm.data.Torchio_contrast_dataloader import totalseg_class, save_to_nnunet
+from ldm.data.Torchio_contrast_dataloader import totalseg_class
 from ldm.util import instantiate_from_config
 from ldm.models.autoencoder import AutoencoderKL, VQModel
 from ldm.models.diffusion.ddpm import LatentDiffusion, InpaintingDiffusion, MaskDiffusion, InpaintingDiffusion_v2
@@ -320,7 +320,6 @@ class AlignDataset(MakeDataset):
                         norm_lis = [-1000, -200, 200, 1000]
                         thresh_lis = [0, 0.2, 0.8, 1]
                         im = img_multi_thresh_normalized(im, thresh_lis=thresh_lis, norm_lis=norm_lis, data_type=np.float32)
-                        # save_to_nnunet(rearrange(im, "c ... -> ... c"), sample_name_b)
                     base_path = os.path.join(sample_name_b, filename)
                     file_path = self.get_unique_file_path(base_path, self.suffixes[key])
                     sitk.WriteImage(sitk.GetImageFromArray(rearrange(im, "c ... -> ... c")), file_path)
