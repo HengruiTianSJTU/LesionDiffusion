@@ -1,31 +1,17 @@
 {
-  "model_cfg": {
-    "embed_dim": 512,
-    "vision_cfg": {
-      "timm_model_name": "vit_base_patch16_224",
-      "timm_model_pretrained": false,
-      "timm_pool": "",
-      "timm_proj": "linear",
-      "image_size": 224
-    },
-    "text_cfg": {
-      "hf_model_name": "../BiomedCLIP/config.json",
-      "hf_tokenizer_name": "../BiomedCLIP",      
-      "hf_proj_type": "mlp",
-      "hf_pooler_type": "cls_last_hidden_state_pooler",
-      "context_length": 256
-    }
+  "embed_dim": 512,
+  "vision_cfg": {
+    "timm_model_name": "vit_base_patch16_224",
+    "timm_model_pretrained": false,
+    "timm_pool": "",
+    "timm_proj": "linear",
+    "image_size": 224
   },
-  "preprocess_cfg": {
-    "mean": [
-      0.48145466,
-      0.4578275,
-      0.40821073
-    ],
-    "std": [
-      0.26862954,
-      0.26130258,
-      0.27577711
-    ]
+  "text_cfg": {
+    "hf_model_name": "../BiomedCLIP/config.json",
+    "hf_tokenizer_name": "../BiomedCLIP",      
+    "hf_proj_type": "mlp",
+    "hf_pooler_type": "cls_last_hidden_state_pooler",
+    "context_length": 256
   }
 }

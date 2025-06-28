@@ -217,14 +217,14 @@ Once all steps are complete, you will find your inpainting results in the respec
 }
 
 @article{zhang2024biomedclip,
-  title={A Multimodal Biomedical Foundation Model Trained from Fifteen Million Image–Text Pairs},
-  author={Sheng Zhang and Yanbo Xu and Naoto Usuyama and Hanwen Xu and Jaspreet Bagga and Robert Tinn and Sam Preston and Rajesh Rao and Mu Wei and Naveen Valluri and Cliff Wong and Andrea Tupini and Yu Wang and Matt Mazzola and Swadheen Shukla and Lars Liden and Jianfeng Gao and Angela Crabtree and Brian Piening and Carlo Bifulco and Matthew P. Lungren and Tristan Naumann and Sheng Wang and Hoifung Poon},
-  journal={NEJM AI},
-  year={2024},
-  volume={2},
-  number={1},
-  doi={10.1056/AIoa2400640},
-  url={https://ai.nejm.org/doi/full/10.1056/AIoa2400640}
+      title={A Multimodal Biomedical Foundation Model Trained from Fifteen Million Image–Text Pairs},
+      author={Sheng Zhang and Yanbo Xu and Naoto Usuyama and Hanwen Xu and Jaspreet Bagga and Robert Tinn and Sam Preston and Rajesh Rao and Mu Wei and Naveen Valluri and Cliff Wong and Andrea Tupini and Yu Wang and Matt Mazzola and Swadheen Shukla and Lars Liden and Jianfeng Gao and Angela Crabtree and Brian Piening and Carlo Bifulco and Matthew P. Lungren and Tristan Naumann and Sheng Wang and Hoifung Poon},
+      journal={NEJM AI},
+      year={2024},
+      volume={2},
+      number={1},
+      doi={10.1056/AIoa2400640},
+      url={https://ai.nejm.org/doi/full/10.1056/AIoa2400640}
 }
 
 @misc{esser2020taming,
@@ -236,14 +236,28 @@ Once all steps are complete, you will find your inpainting results in the respec
       primaryClass={cs.CV}
 }
 
+@article{Wasserthal_2023,
+      title={TotalSegmentator: Robust Segmentation of 104 Anatomic Structures in CT Images},
+      volume={5},
+      ISSN={2638-6100},
+      url={http://dx.doi.org/10.1148/ryai.230024},
+      DOI={10.1148/ryai.230024},
+      number={5},
+      journal={Radiology: Artificial Intelligence},
+      publisher={Radiological Society of North America (RSNA)},
+      author={Wasserthal, Jakob and Breit, Hanns-Christian and Meyer, Manfred T. and Pradella, Maurice and Hinck, Daniel and Sauter, Alexander W. and Heye, Tobias and Boll, Daniel T. and Cyriac, Joshy and Yang, Shan and Bach, Michael and Segeroth, Martin},
+      year={2023},
+      month=sep 
+}
+
 @article{isensee2021nnu,
-  title={nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation},
-  author={Isensee, Fabian and Jaeger, Paul F and Kohl, Simon AA and Petersen, Jens and Maier-Hein, Klaus H},
-  journal={Nature methods},
-  volume={18},
-  number={2},
-  pages={203--211},
-  year={2021},
-  publisher={Nature Publishing Group}
+      title={nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation},
+      author={Isensee, Fabian and Jaeger, Paul F and Kohl, Simon AA and Petersen, Jens and Maier-Hein, Klaus H},
+      journal={Nature methods},
+      volume={18},
+      number={2},
+      pages={203--211},
+      year={2021},
+      publisher={Nature Publishing Group}
 }
 ```
