@@ -4,7 +4,7 @@
 <h3>LesionDiffusion: Towards Text-controlled General Lesion Synthesis</h3>
 
 [Hengrui Tian](https://github.com/HengruiTianSJTU/)<sup>1&#42;</sup>&nbsp;
-[Wenhui Lei](https://scholar.google.com/citations?user=kvD7060AAAAJ)<sup>1,2&#42;</sup>&nbsp;
+[Wenhui Lei](https://lwhyc.github.io/)<sup>1,2&#42;</sup>&nbsp;
 [Linrui Dai](https://github.com/OvO1111/)<sup>1,2&#42;</sup>&nbsp;
 Hanyu Chen<sup>3</sup>&nbsp;
 [Xiaofan Zhang](https://zhangxiaofan101.github.io/)<sup>1,2</sup>&nbsp;
@@ -12,6 +12,8 @@ Hanyu Chen<sup>3</sup>&nbsp;
 <sup>1</sup> Shanghai Jiao Tong University &nbsp; <sup>2</sup> Shanghai Artificial Intelligence Laboratory &nbsp; <sup>3</sup> The First Hospital of China Medical University &nbsp;
  
 [![ArXiv](https://img.shields.io/badge/ArXiv-<2503.00741>-<COLOR>.svg)](https://arxiv.org/pdf/2503.00741) 
+
+[\[📖 中文\]](README_zh.md)
   
 </div>
 
@@ -30,7 +32,7 @@ Through extensive experiments, we demonstrate that LesionDiffusion significantly
 
 <img src="https://github.com/HengruiTianSJTU/LesionDiffusion/blob/main/fig/generation.png" alt="generation quality" width="900" />
 
-In the following sections, we will introduce how to use our LesionDiffusion framework.
+The following sections provide an overview of how to use the LesionDiffusion framework. This work is built upon [ldm](https://github.com/OvO1111/ldm), which extends the Stable Diffusion model to 3D space (3D Latent Diffusion Model). We recommend checking out the original repository for additional information.
 
 # Step -1: Prepare environment. 
 Our project was developed using Python 3.11.9, and it is still recommended to use this version for consistency.
@@ -130,10 +132,10 @@ After training LMNet, if you have additional datasets or wish to specialize the 
 In Stage II, you will first train a VQ-GAN model to compress the CT volumes, followed by training the latent-diffusion LINet model using the compressed representations.
 
 #### **Training VQ-GAN**
-To train the VQ-GAN model, use the configuration file located at `configs/autoencoder/leiondiffusion_vq.yaml`. If you need to adjust the configuration, ensure that the `n_embed` and `n_classes` parameters in the `model` section remain the same, as they define the size of the codebook used for compression.
+To train the VQ-GAN model, use the configuration file located at `configs/autoencoder/lesiondiffusion_vq.yaml`. If you need to adjust the configuration, ensure that the `n_embed` and `n_classes` parameters in the `model` section remain the same, as they define the size of the codebook used for compression.
 
 #### **Training LINet**
-For training the LINet model, use the configuration file located at `configs/diffusion/leiondiffusion.yaml`. The `random_sample` and `iter_num` parameters follow the same requirements as described in Stage I. Additionally, you can fine-tune a pretrained LINet model using the fine-tuning configuration file located at `configs/diffusion/lesiondiffusion_ft.yaml`.
+For training the LINet model, use the configuration file located at `configs/diffusion/lesiondiffusion.yaml`. The `random_sample` and `iter_num` parameters follow the same requirements as described in Stage I. Additionally, you can fine-tune a pretrained LINet model using the fine-tuning configuration file located at `configs/diffusion/lesiondiffusion_ft.yaml`.
 
 # Step 2: Inference pipeline
 As described in our paper, the **LesionDiffusion** framework inference consists of three stages, which must be executed sequentially. Like what we do in the training pipeline, make sure yourself still in the `pipeline` subdirectory.
@@ -189,12 +191,18 @@ Then execute:
 python test.py --base configs/diffusion/lesiondiffusion_test.yaml --name inp-diff-infer --gpus XX
 ```
 
-We strongly recommend using two GPUs and specifying the index of the one with the smaller index to the `--gpus` option, as the other GPU will be automatically utilized for the VQ process on the full image to implement multiplace sampling on a single raw input image.
+For LINet inference, we strongly recommend specifying non-consecutive GPU indices when launching the script (for example, `--gpus 0,2`). The program will automatically use the specified GPUs for model inference and will attempt to use the next available GPU after each specified index to perform full-image VQ processing, enabling multi-location sampling on a single input image.
 
 Once all steps are complete, you will find your inpainting results in the respective subdirectories corresponding to each raw image. Congratulations!
 
 # Acknowledgement
 - We thank the authors of [ldm](https://github.com/OvO1111/ldm), [PASTA](https://github.com/LWHYC/PASTA), [StableDiffusion](https://github.com/CompVis/latent-diffusion), [BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224), [VQ-GAN](https://github.com/CompVis/taming-transformers), [TotalSegmentator](https://github.com/wasserth/TotalSegmentator), [nnUNet](https://github.com/MIC-DKFZ/nnUNet), for their great works. Please cite their papers if you use our code.
+
+# License
+
+This project is under the MIT License. See the [LICENSE](LICENSE) file for details. It uses pip-installed dependencies, including some under the Apache License 2.0. No modifications were made to these libraries.  
+
+You are welcome to use, modify, and share this project freely under the terms of the MIT License.
 
 ```bibtex
 @misc{lei2025dataefficientpantumorfoundationmodel,

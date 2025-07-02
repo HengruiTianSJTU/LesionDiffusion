@@ -2662,6 +2662,7 @@ class InpaintingDiffusion_v2(InpaintingDiffusion):
     """main class for lesion inpainting"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.set_precision("fp16")
     
     @torch.no_grad()
     def get_input(self, batch, k, return_first_stage_outputs=False, force_c_encode=False,
@@ -2799,10 +2800,10 @@ class InpaintingDiffusion_v2(InpaintingDiffusion):
                 json_dic_key = json_dic[selected_key][2]
                 json_dic_key["lesion location"] = totalseg_class[selected_key]
                 json_dic_key.pop("size", None)
-                match = re.search(r'approximately (-?\d+(\.\d+)?) HU', json_dic_key['CT value'])
-                if match:
-                    ct_value = float(match.group(1))
-                    json_dic_key['CT value'] = f'{ct_value} HU,'
+                # match = re.search(r'approximately (-?\d+(\.\d+)?) HU', json_dic_key['CT value'])
+                # if match:
+                #     ct_value = float(match.group(1))
+                #     json_dic_key['CT value'] = f'{ct_value} HU,'
                 texts.append(json_dic_key)
             
 

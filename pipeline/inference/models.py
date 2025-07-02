@@ -21,7 +21,6 @@ from ldm.models.autoencoder import AutoencoderKL, VQModel
 from ldm.models.diffusion.ddpm import LatentDiffusion, InpaintingDiffusion, MaskDiffusion, InpaintingDiffusion_v2
 from ldm.models.diffusion.ccdm import CategoricalDiffusion, OneHotCategoricalBCHW
 from ldm.models.diffusion.classifier import CharacteristicClassifier
-from ldm.models.downstream.efficient_subclass import EfficientSubclassSegmentation
 
 from ldm.models.diffusion.ddim import make_ddim_timesteps
 from ldm.modules.diffusionmodules.util import extract_into_tensor
