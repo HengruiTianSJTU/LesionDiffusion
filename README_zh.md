@@ -1,16 +1,20 @@
-# [MICCAI'25 Early Accept] LesionDiffusion
+# [MICCAI'25] LesionDiffusion
 <div align="center">
 <br>
 <h3>LesionDiffusion: Towards Text-controlled General Lesion Synthesis</h3>
 
+[Wenhui Lei](https://lwhyc.github.io/)<sup>1,2&#42;&#8224;</sup>&nbsp;
 [Hengrui Tian](https://github.com/HengruiTianSJTU/)<sup>1&#42;</sup>&nbsp;
-[Wenhui Lei](https://lwhyc.github.io/)<sup>1,2&#42;</sup>&nbsp;
 [Linrui Dai](https://github.com/OvO1111/)<sup>1,2&#42;</sup>&nbsp;
 Hanyu Chen<sup>3</sup>&nbsp;
 [Xiaofan Zhang](https://zhangxiaofan101.github.io/)<sup>1,2</sup>&nbsp;
 
 <sup>1</sup> Shanghai Jiao Tong University &nbsp; <sup>2</sup> Shanghai Artificial Intelligence Laboratory &nbsp; <sup>3</sup> The First Hospital of China Medical University &nbsp;
  
+<sup>&#8224;</sup> Project Lead &nbsp;&nbsp; <sup>&#42;</sup> Equal contribution
+
+<br>
+
 [![ArXiv](https://img.shields.io/badge/ArXiv-<2503.00741>-<COLOR>.svg)](https://arxiv.org/pdf/2503.00741) 
 
 [\[📖 English\]](README.md)
@@ -21,7 +25,7 @@ Hanyu Chen<sup>3</sup>&nbsp;
 **LesionDiffusion** 是一个用于可泛化病灶合成的文本控制框架。该框架由两个关键组件构成：
 
 1) 一个由病灶边界框 (bbox) 和掩码属性引导的病灶掩码合成网络 (LMNet)。
-2) 一个由图像属性和病灶掩码共同引导的病灶修复网络 (LINet)。
+2) 一个由图像属性和病灶掩码共同引导的病灶编辑网络 (LINet)。
 
 <img src="https://github.com/HengruiTianSJTU/LesionDiffusion/blob/main/fig/Fig2.png" alt="overview" width="900" />
 
@@ -50,11 +54,12 @@ Hanyu Chen<sup>3</sup>&nbsp;
 
    环境激活后，使用 `requirements.txt` 文件安装必要的依赖：
    ```bash
+   python -m pip install pip==23.1.2
    pip install -r requirements.txt
    ```
 
 # 第 0 步：准备数据集
-您可以从我们提供的 Hugging Face 链接下载公开可用的数据集。如果您希望使用自己的数据，请确保其遵循下述说明。
+如果您希望使用自己的数据，请确保其遵循下述说明。
 
 ### **关键要求**  
 对于每一个训练/验证案例，您必须提供**四个文件**，内容如下：  
@@ -191,6 +196,21 @@ python test.py --base configs/diffusion/lesiondiffusion_test.yaml --name inp-dif
 对于 LINet 推理，我们强烈建议在启动脚本时，通过 --gpus 选项指定不连续的 GPU 序号（例如` --gpus 0,2 `）。程序会自动使用这些指定的 GPU 进行模型推理，并尝试在每个指定 GPU 的后续一块 GPU 上执行完整图像的 VQ 处理，从而在单张输入图像上实现多位置采样。
 
 所有步骤完成后，您将在每个原始图像对应的子目录中找到您的修复结果。恭喜！
+
+# 引用
+若本工作对您的研究有所帮助，请引用我们的论文。
+```bibtex
+@InProceedings{LeiWen_LesionDiffusion_MICCAI2025,
+        author = { Lei, Wenhui AND Tian, Hengrui AND Dai, Linrui AND Chen, Hanyu AND Zhang, Xiaofan},
+        title = { { LesionDiffusion: Towards Text-controlled General Lesion Synthesis } },
+        booktitle = {proceedings of Medical Image Computing and Computer Assisted Intervention -- MICCAI 2025},
+        year = {2025},
+        publisher = {Springer Nature Switzerland},
+        volume = {LNCS 15964},
+        month = {September},
+        page = {327 -- 336}
+}
+```
 
 # 致谢
 - 我们感谢 [ldm](https://github.com/OvO1111/ldm)、[PASTA](https://github.com/LWHYC/PASTA)、[StableDiffusion](https://github.com/CompVis/latent-diffusion)、[BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224)、[VQ-GAN](https://github.com/CompVis/taming-transformers)、[TotalSegmentator](https://github.com/wasserth/TotalSegmentator)、[nnUNet](https://github.com/MIC-DKFZ/nnUNet) 的作者们所做的出色工作。如果您的研究中使用了我们的代码，请引用他们的论文。

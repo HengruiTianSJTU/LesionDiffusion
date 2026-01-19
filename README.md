@@ -1,24 +1,31 @@
-# [MICCAI'25 Early Accept] LesionDiffusion
+# [MICCAI'25] LesionDiffusion
 <div align="center">
 <br>
 <h3>LesionDiffusion: Towards Text-controlled General Lesion Synthesis</h3>
 
+[Wenhui Lei](https://lwhyc.github.io/)<sup>1,2&#42;&#8224;</sup>&nbsp;
 [Hengrui Tian](https://github.com/HengruiTianSJTU/)<sup>1&#42;</sup>&nbsp;
-[Wenhui Lei](https://lwhyc.github.io/)<sup>1,2&#42;</sup>&nbsp;
 [Linrui Dai](https://github.com/OvO1111/)<sup>1,2&#42;</sup>&nbsp;
 Hanyu Chen<sup>3</sup>&nbsp;
 [Xiaofan Zhang](https://zhangxiaofan101.github.io/)<sup>1,2</sup>&nbsp;
 
 <sup>1</sup> Shanghai Jiao Tong University &nbsp; <sup>2</sup> Shanghai Artificial Intelligence Laboratory &nbsp; <sup>3</sup> The First Hospital of China Medical University &nbsp;
  
+<sup>&#8224;</sup> Project Lead &nbsp;&nbsp; <sup>&#42;</sup> Equal contribution
+
+<br>
+
 [![ArXiv](https://img.shields.io/badge/ArXiv-<2503.00741>-<COLOR>.svg)](https://arxiv.org/pdf/2503.00741) 
 
 [\[📖 中文\]](README_zh.md)
   
 </div>
 
-To do list:
-- Release public available Dataset. (Coming soon!)
+> Thank you to the community for your interest and support!  
+>
+> We are releasing a [**standalone, easy-to-use 3D implementation of Latent Diffusion Models**](https://github.com/HengruiTianSJTU/Med-LDM-Core) for medical image synthesis, designed with **reproducibility and extensibility** in mind. For the mature PyTorch Lightning-based implementation that this work is built upon, please refer to [ldm](https://github.com/OvO1111/ldm).
+>
+> For information regarding dataset availability, please see [issue #6](https://github.com/HengruiTianSJTU/LesionDiffusion/issues/6)
 
 # Overview
 **LesionDiffusion** is a text-controlled framework for generalizable lesion synthesis. The framework consists of two key components: 
@@ -53,11 +60,12 @@ Our project was developed using Python 3.11.9, and it is still recommended to us
 
    Once the environment is activated, install the necessary dependencies using the requirements.txt file:
    ```bash
+   python -m pip install pip==23.1.2
    pip install -r requirements.txt
    ```
 
 # Step 0: Prepare dataset
-You can download our publicly available dataset from the Hugging Face link provided. If you prefer to use your own data, please ensure it adheres to the instructions outlined below.
+If you'd like to use your own data for training, please ensure it adheres to the instructions outlined below.
 
 ### **Key Requirements**  
 For every training/validation case, you must provide **four files** with the following content:  
@@ -195,8 +203,25 @@ For LINet inference, we strongly recommend specifying non-consecutive GPU indice
 
 Once all steps are complete, you will find your inpainting results in the respective subdirectories corresponding to each raw image. Congratulations!
 
+# Citation
+
+If you find this work useful in your research, please consider citing our paper:
+
+```bibtex
+@InProceedings{LeiWen_LesionDiffusion_MICCAI2025,
+        author = { Lei, Wenhui AND Tian, Hengrui AND Dai, Linrui AND Chen, Hanyu AND Zhang, Xiaofan},
+        title = { { LesionDiffusion: Towards Text-controlled General Lesion Synthesis } },
+        booktitle = {proceedings of Medical Image Computing and Computer Assisted Intervention -- MICCAI 2025},
+        year = {2025},
+        publisher = {Springer Nature Switzerland},
+        volume = {LNCS 15964},
+        month = {September},
+        page = {327 -- 336}
+}
+```
+
 # Acknowledgement
-- We thank the authors of [ldm](https://github.com/OvO1111/ldm), [PASTA](https://github.com/LWHYC/PASTA), [StableDiffusion](https://github.com/CompVis/latent-diffusion), [BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224), [VQ-GAN](https://github.com/CompVis/taming-transformers), [TotalSegmentator](https://github.com/wasserth/TotalSegmentator), [nnUNet](https://github.com/MIC-DKFZ/nnUNet), for their great works. Please cite their papers if you use our code.
+- We thank the authors of [ldm](https://github.com/OvO1111/ldm), [PASTA](https://github.com/LWHYC/PASTA), [StableDiffusion](https://github.com/CompVis/latent-diffusion), [BiomedCLIP](https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224), [VQ-GAN](https://github.com/CompVis/taming-transformers), [TotalSegmentator](https://github.com/wasserth/TotalSegmentator), [nnUNet](https://github.com/MIC-DKFZ/nnUNet), for their great works. Please also cite their papers if you use our code.
 
 # License
 
